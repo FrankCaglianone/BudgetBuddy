@@ -1,4 +1,5 @@
 import 'package:budget_buddy/models/expense.dart';
+import 'package:budget_buddy/widgets/expenses_list/expenses_item.dart';
 import 'package:flutter/material.dart';
 
 class ExpensesList extends StatelessWidget{
@@ -9,7 +10,7 @@ class ExpensesList extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return ListView.builder(itemCount: expenses.length, itemBuilder: (context, index) {
-      return Text(expenses[index].title);
+      return ExpensesItem(expense: expenses[index]);
     });
   }
   
