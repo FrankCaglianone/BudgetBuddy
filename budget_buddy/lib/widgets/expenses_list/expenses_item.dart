@@ -30,11 +30,12 @@ class ExpensesItem extends StatelessWidget{
                     const SizedBox(width: 10),
                     Text(expense.formattedDate)
                   ],
-                ),                
+                ),
               ],
             )
           ],
-        )),
+        )
+      ),
     );
   }
 }
