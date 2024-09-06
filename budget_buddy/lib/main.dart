@@ -1,4 +1,4 @@
-import 'package:budget_buddy/expenses.dart';
+import 'package:budget_buddy/screens/expenses.dart';
 import 'package:flutter/material.dart';
 
 void main() {
