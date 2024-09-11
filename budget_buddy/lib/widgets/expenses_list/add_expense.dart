@@ -1,5 +1,7 @@
+import 'package:budget_buddy/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 
 
 class AddExpense extends StatefulWidget{
@@ -20,6 +22,9 @@ class _AddExpense extends State<AddExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
 
+  // Store Variables
+  Category _selectedCategory = Category.leisure;
+
   // Controllers Disposal
   @override
   void dispose() {
@@ -27,9 +32,6 @@ class _AddExpense extends State<AddExpense> {
     _amountController.dispose();
     super.dispose();
   }
-
-
-
 
 
 
@@ -99,6 +101,24 @@ class _AddExpense extends State<AddExpense> {
           // Buttons
           Row(
             children: [
+              DropdownButton(
+                value: _selectedCategory,
+                items: Category.values.map(
+                  (category) => DropdownMenuItem(
+                    value: category,
+                    child: Text(category.name.toUpperCase())
+                  )
+                ).toList(), 
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value!;
+                  });
+                }
+              ),
+
+              const Spacer(),
+
+              
               // Cancel Expense Button
               TextButton(
                  onPressed: () {
