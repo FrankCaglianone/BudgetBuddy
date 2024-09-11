@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 
 
 class AddExpense extends StatefulWidget{
-  const AddExpense({super.key});
+  const AddExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<StatefulWidget> createState() {
@@ -16,16 +18,21 @@ class AddExpense extends StatefulWidget{
 
 
 
+
+
+
 class _AddExpense extends State<AddExpense> {
 
+  //* ----- STORING VARIABLES -----
+  Category _selectedCategory = Category.leisure;
+  DateTime? _selectedDate;
   // Controllers Instantiation
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+ 
 
-  // Store Variables
-  Category _selectedCategory = Category.leisure;
 
-  // Controllers Disposal
+  //* CONTROLLERS DISPOSAL
   @override
   void dispose() {
     _titleController.dispose();
@@ -35,9 +42,8 @@ class _AddExpense extends State<AddExpense> {
 
 
 
+  //* ----- DATE FORMATTER -----
   final formatter = DateFormat.yMd();
-  DateTime? _selectedDate;
-
   void _showDatePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 1, now.month, now.day);
@@ -46,6 +52,41 @@ class _AddExpense extends State<AddExpense> {
       _selectedDate = pickedDate;
     });
   }
+
+
+
+
+  //* ----- FORM SUBMISSION -----
+  void _submitForm() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final bool amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+
+    if(_titleController.text.trim().isEmpty || amountIsInvalid || _selectedDate == null) {
+      showDialog(context: context, builder: (ctx) {
+        return AlertDialog(
+          title: const Text("Invalid Input"),
+          content: const Text("Please make sure to enter all fields."),
+          actions: [
+            TextButton(onPressed: () {
+              Navigator.pop(ctx);
+              }, 
+              child: const Text("data"),
+            )
+          ],
+        );
+      });
+      return;
+    }
+
+    widget.onAddExpense(Expense(
+      title: _titleController.text, 
+      amount: enteredAmount, 
+      date: _selectedDate!, 
+      category: _selectedCategory
+      )
+    );
+  }
+
 
 
   @override
@@ -118,7 +159,7 @@ class _AddExpense extends State<AddExpense> {
 
               const Spacer(),
 
-              
+
               // Cancel Expense Button
               TextButton(
                  onPressed: () {
@@ -130,8 +171,7 @@ class _AddExpense extends State<AddExpense> {
               // Add Expense Button
               ElevatedButton(
                 onPressed: () {
-                  print(_titleController.text);
-                  print(_amountController.text);
+                  _submitForm();
                 }, 
                 child: const Text("Save Expense")
               ),
