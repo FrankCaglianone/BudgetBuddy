@@ -63,8 +63,8 @@ class ExpenseBucket {
 
   double get totalExpenses {
     double sum = 0;
-    for (final x in expenses) {
-      sum += x.amount;
+    for (final exp in expenses) {
+      sum += exp.amount;
     }
     return sum;
   }
