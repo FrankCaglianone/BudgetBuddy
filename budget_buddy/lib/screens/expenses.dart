@@ -23,6 +23,9 @@ class _ExpensesState extends State<Expenses> {
 
 
 
+  /* 
+  * Add Expenes Show Overlay Method
+  */
   void _openAddExpenseOverlay() {
     showModalBottomSheet(isScrollControlled: true, context: context, builder: (ctx) {
       return AddExpense(onAddExpense: _addExpense);
@@ -30,7 +33,9 @@ class _ExpensesState extends State<Expenses> {
   }
 
 
-
+  /* 
+  * Remove Expenes Method
+  */
   void _addExpense(Expense expense) {
     setState(() {
       _dummies.add(expense);
@@ -38,13 +43,22 @@ class _ExpensesState extends State<Expenses> {
   }
 
 
+  /* 
+  * Add Expenes Method
+  */
   void _removeExpense(Expense expense) {
+    // get index of expense
     final expenseIndex = _dummies.indexOf(expense);
 
+    // remove expense
     setState(() {
       _dummies.remove(expense);
     });
 
+    // clear all other snackbars
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    // display snackbar with undo option
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         duration: const Duration(seconds: 3),
         content: const Text("Expense Deleted"),
@@ -58,17 +72,20 @@ class _ExpensesState extends State<Expenses> {
 
 
 
+  /* 
+  * Build Method
+  */
   @override
   Widget build(BuildContext context) {
+    // Create main content widget with default text
     Widget mainContent = const Center(child: Text("No expenses found. Start adding some!"));
     
+    // If db is not empty change mainContent the ListView with expenses 
     if (_dummies.isNotEmpty) {
       mainContent = ExpensesList(expenses: _dummies, onRemoveExpense: _removeExpense);
     }
 
-
-
-
+    // Return the widget
     return Scaffold(
       appBar: AppBar(
         actions: [
