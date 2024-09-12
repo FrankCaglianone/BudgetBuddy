@@ -18,14 +18,41 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //* App Title
       title: 'Budget Buddy',
+
+      //* THEMES
       theme: ThemeData().copyWith(
+        // Setting color scheme
         colorScheme: myColorScheme,
+
+        // Setting global App Bar Theme
         appBarTheme: const AppBarTheme().copyWith(
           backgroundColor: myColorScheme.onPrimaryContainer,
           foregroundColor: myColorScheme.primaryContainer,
-        )
+        ),
+
+        // Setting global Card Theme
+        cardTheme: const CardTheme().copyWith(
+          color: myColorScheme.secondaryContainer,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        ),
+
+        // Setting global Eleveated Button Theme
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: myColorScheme.onPrimaryContainer,
+          ),
+        ),
+
+        // Setting global Text Theme
+        textTheme: ThemeData().textTheme.copyWith(
+          titleLarge: TextStyle(color: myColorScheme.onSecondaryContainer),
+        ),
+
       ),
+
+      //* HOME WIDGET
       home: const Expenses()
     );
   }
