@@ -89,7 +89,10 @@ class _ExpensesState extends State<Expenses> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          const Text("Budget Buddy"),
+          Container(
+            margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child: const Text("Budget Buddy"),
+          ),
           const Spacer(),
           IconButton(onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add)),
         ]
