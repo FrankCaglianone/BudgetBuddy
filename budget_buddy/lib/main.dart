@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 
 
 var myColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 60, 90, 78));
+var myDarkColorScheme = ColorScheme.fromSeed(
+  brightness: Brightness.dark,
+  seedColor: const Color.fromARGB(255, 18, 52, 38)
+);
 
 
 
@@ -49,8 +53,31 @@ class MyApp extends StatelessWidget {
         textTheme: ThemeData().textTheme.copyWith(
           titleLarge: TextStyle(color: myColorScheme.onSecondaryContainer),
         ),
-
       ),
+
+      //* DARK THEME
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: myDarkColorScheme,
+         
+        // Setting global Card Dark Theme
+        cardTheme: const CardTheme().copyWith(
+          color: myDarkColorScheme.secondaryContainer,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        ),
+
+        // Setting global Eleveated Button Theme
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: myDarkColorScheme.onPrimaryContainer,
+          ),
+        ),
+
+        // Setting global Text Theme
+        textTheme: ThemeData().textTheme.copyWith(
+          titleLarge: const TextStyle(color: Colors.white),
+        ),
+      ),
+
 
       //* HOME WIDGET
       home: const Expenses()
