@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:budget_buddy/models/expense.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -62,20 +65,37 @@ class _AddExpense extends State<AddExpense> {
     final bool amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
 
     if(_titleController.text.trim().isEmpty || amountIsInvalid || _selectedDate == null) {
-      showDialog(context: context, builder: (ctx) {
-        return AlertDialog(
-          title: const Text("Invalid Input"),
-          content: const Text("Please make sure to enter all fields."),
-          actions: [
-            TextButton(onPressed: () {
-              Navigator.pop(ctx);
-              }, 
-              child: const Text("data"),
-            )
-          ],
-        );
-      });
-      return;
+      if (Platform.isIOS) {
+        showCupertinoDialog( context: context, builder: (ctx) {
+          return CupertinoAlertDialog(
+            title: const Text('Invalid input'),
+            content: const Text("Please make sure to enter all fields."),
+            actions: [
+              TextButton( onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('Okay'),
+              ),
+            ],
+          );
+        });
+        return;
+      } else {
+        showDialog(context: context, builder: (ctx) {
+          return AlertDialog(
+            title: const Text("Invalid Input"),
+            content: const Text("Please make sure to enter all fields."),
+            actions: [
+              TextButton(onPressed: () {
+                Navigator.pop(ctx);
+                }, 
+                child: const Text("Okay"),
+              )
+            ],
+          );
+        });
+        return;
+      }
     }
 
     widget.onAddExpense(Expense(
